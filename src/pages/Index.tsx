@@ -182,22 +182,22 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Hero Section with Large Logo */}
-      <section className="relative py-12 px-4 text-center overflow-hidden">
+      {/* Hero Section with Smaller Logo */}
+      <section className="relative py-8 px-4 text-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-pink-100/50 via-yellow-100/50 to-cyan-100/50"></div>
         <div className="container mx-auto relative z-10">
-          <div className="mb-6">
+          <div className="mb-4">
             <img 
               src="/lovable-uploads/821af3f6-f657-4e76-9204-2bee6c21c100.png" 
               alt="Mattress Liquidators Logo" 
-              className="mx-auto w-full max-w-2xl h-auto drop-shadow-lg animate-pulse"
+              className="mx-auto w-full max-w-md h-auto drop-shadow-lg"
             />
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4 leading-tight">
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-800 mb-3 leading-tight">
             Find Your Perfect
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-500"> Mattress</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-gray-600 mb-4 max-w-2xl mx-auto leading-relaxed">
             Premium mattresses at liquidation prices. Save up to 80% off retail with our unbeatable selection.
           </p>
         </div>
