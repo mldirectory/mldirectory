@@ -1,6 +1,5 @@
-
 import { useState } from 'react';
-import { Plus, Trash2, Store } from 'lucide-react';
+import { Plus, Trash2, Store as StoreIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -59,7 +58,7 @@ const AdminPanel = ({ onAddStore, stores, onRemoveStore }: AdminPanelProps) => {
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-2">
-          <Store className="w-8 h-8 text-pink-500" />
+          <StoreIcon className="w-8 h-8 text-pink-500" />
           Admin Panel
         </h2>
         <p className="text-gray-600">Manage your store locations</p>
@@ -188,7 +187,7 @@ const AdminPanel = ({ onAddStore, stores, onRemoveStore }: AdminPanelProps) => {
           <CardContent>
             {stores.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
-                <Store className="w-12 h-12 mx-auto mb-2 text-gray-300" />
+                <StoreIcon className="w-12 h-12 mx-auto mb-2 text-gray-300" />
                 <p>No stores added yet</p>
               </div>
             ) : (
