@@ -40,30 +40,31 @@ const StoreLocator = ({ stores }: StoreLocatorProps) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      {/* Search Section */}
-      <Card className="mb-8 bg-white/80 backdrop-blur-sm border-pink-100 shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl text-gray-800 flex items-center justify-center gap-2">
-            <Search className="w-6 h-6 text-pink-500" />
+    <div className="max-w-5xl mx-auto">
+      {/* Large, Prominent Search Section */}
+      <Card className="mb-8 bg-white/90 backdrop-blur-sm border-pink-200 shadow-xl">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-center text-2xl md:text-3xl text-gray-800 flex items-center justify-center gap-3">
+            <Search className="w-8 h-8 text-pink-500" />
             Store Locator
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-4 max-w-lg mx-auto">
+          <div className="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto">
             <Input
               type="text"
               placeholder="Enter city, state, or zip code..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="flex-1 border-pink-200 focus:border-pink-400 focus:ring-pink-400"
+              className="flex-1 h-14 text-lg border-pink-200 focus:border-pink-400 focus:ring-pink-400 rounded-xl"
             />
             <Button 
               onClick={handleSearch}
-              className="bg-gradient-to-r from-pink-500 to-yellow-500 hover:from-pink-600 hover:to-yellow-600 text-white px-8"
+              className="h-14 px-8 md:px-12 text-lg bg-gradient-to-r from-pink-500 to-yellow-500 hover:from-pink-600 hover:to-yellow-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
             >
-              Search
+              <Search className="w-5 h-5 mr-2" />
+              Search Stores
             </Button>
           </div>
         </CardContent>
@@ -98,14 +99,18 @@ const StoreLocator = ({ stores }: StoreLocatorProps) => {
                   </p>
                   
                   <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Phone className="w-4 h-4 text-pink-500" />
-                      <span className="text-sm">{store.phone}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Clock className="w-4 h-4 text-pink-500" />
-                      <span className="text-sm">{store.hours}</span>
-                    </div>
+                    {store.phone && (
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <Phone className="w-4 h-4 text-pink-500" />
+                        <span className="text-sm">{store.phone}</span>
+                      </div>
+                    )}
+                    {store.hours && (
+                      <div className="flex items-center gap-2 text-gray-600">
+                        <Clock className="w-4 h-4 text-pink-500" />
+                        <span className="text-sm">{store.hours}</span>
+                      </div>
+                    )}
                   </div>
 
                   <Button 

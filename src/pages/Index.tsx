@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import StoreLocator from '@/components/StoreLocator';
 import AdminPanel from '@/components/AdminPanel';
 import FeaturedBrands from '@/components/FeaturedBrands';
+import { supabase } from '@/integrations/supabase/client';
 
 export interface Store {
   id: string;
@@ -23,29 +24,103 @@ const Index = () => {
   const [stores, setStores] = useState<Store[]>([]);
   const [showAdmin, setShowAdmin] = useState(false);
 
-  // Load stores from localStorage on component mount
+  // Load stores from Supabase
   useEffect(() => {
-    const savedStores = localStorage.getItem('mattress-stores');
-    if (savedStores) {
-      setStores(JSON.parse(savedStores));
-    }
+    fetchStores();
   }, []);
 
-  // Save stores to localStorage whenever stores change
-  useEffect(() => {
-    localStorage.setItem('mattress-stores', JSON.stringify(stores));
-  }, [stores]);
+  const fetchStores = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('stores')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-  const addStore = (store: Omit<Store, 'id'>) => {
-    const newStore = {
-      ...store,
-      id: Date.now().toString(),
-    };
-    setStores(prev => [...prev, newStore]);
+      if (error) {
+        console.error('Error fetching stores:', error);
+        return;
+      }
+
+      // Transform the data to match our Store interface
+      const transformedStores = data.map(store => ({
+        id: store.id,
+        name: store.name,
+        address: store.address,
+        city: store.city,
+        state: store.state,
+        zipCode: store.zip_code,
+        phone: store.phone || '',
+        hours: store.hours || '',
+      }));
+
+      setStores(transformedStores);
+    } catch (error) {
+      console.error('Error fetching stores:', error);
+    }
   };
 
-  const removeStore = (id: string) => {
-    setStores(prev => prev.filter(store => store.id !== id));
+  const addStore = async (store: Omit<Store, 'id'>) => {
+    try {
+      const { data, error } = await supabase
+        .from('stores')
+        .insert([{
+          name: store.name,
+          address: store.address,
+          city: store.city,
+          state: store.state,
+          zip_code: store.zipCode,
+          phone: store.phone,
+          hours: store.hours,
+        }])
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error adding store:', error);
+        alert('Error adding store. Please try again.');
+        return;
+      }
+
+      // Add the new store to the local state
+      const newStore = {
+        id: data.id,
+        name: data.name,
+        address: data.address,
+        city: data.city,
+        state: data.state,
+        zipCode: data.zip_code,
+        phone: data.phone || '',
+        hours: data.hours || '',
+      };
+
+      setStores(prev => [newStore, ...prev]);
+      console.log('Store added successfully!');
+    } catch (error) {
+      console.error('Error adding store:', error);
+      alert('Error adding store. Please try again.');
+    }
+  };
+
+  const removeStore = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('stores')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        console.error('Error removing store:', error);
+        alert('Error removing store. Please try again.');
+        return;
+      }
+
+      // Remove the store from local state
+      setStores(prev => prev.filter(store => store.id !== id));
+      console.log('Store removed successfully!');
+    } catch (error) {
+      console.error('Error removing store:', error);
+      alert('Error removing store. Please try again.');
+    }
   };
 
   return (
@@ -68,25 +143,53 @@ const Index = () => {
       </header>
 
       {/* Hero Section with Large Logo */}
-      <section className="relative py-20 px-4 text-center overflow-hidden">
+      <section className="relative py-12 px-4 text-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-pink-100/50 via-yellow-100/50 to-cyan-100/50"></div>
         <div className="container mx-auto relative z-10">
-          <div className="mb-8">
+          <div className="mb-6">
             <img 
               src="/lovable-uploads/821af3f6-f657-4e76-9204-2bee6c21c100.png" 
               alt="Mattress Liquidators Logo" 
               className="mx-auto w-full max-w-2xl h-auto drop-shadow-lg animate-pulse"
             />
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6 leading-tight">
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4 leading-tight">
             Find Your Perfect
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-500"> Mattress</span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Premium mattresses at liquidation prices. Save up to 80% off retail with our unbeatable selection of top brand mattresses.
+          <p className="text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto leading-relaxed">
+            Premium mattresses at liquidation prices. Save up to 80% off retail with our unbeatable selection.
           </p>
-          
-          {/* Quick Stats */}
+        </div>
+      </section>
+
+      {/* Store Locator Section - Moved right below logo */}
+      <section className="py-8 px-4 bg-white/50 backdrop-blur-sm">
+        <div className="container mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+              Find Your Nearest Store
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Locate the closest Mattress Liquidators store near you and discover incredible savings.
+            </p>
+          </div>
+          <StoreLocator stores={stores} />
+        </div>
+      </section>
+
+      {/* Admin Panel */}
+      {showAdmin && (
+        <section className="py-8 px-4 bg-white/70 backdrop-blur-sm border-y border-pink-100">
+          <div className="container mx-auto">
+            <AdminPanel onAddStore={addStore} stores={stores} onRemoveStore={removeStore} />
+          </div>
+        </section>
+      )}
+
+      {/* Quick Stats */}
+      <section className="py-12 px-4">
+        <div className="container mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <Card className="bg-white/60 backdrop-blur-sm border-pink-100">
               <CardContent className="p-4 text-center">
@@ -117,30 +220,6 @@ const Index = () => {
               </CardContent>
             </Card>
           </div>
-        </div>
-      </section>
-
-      {/* Admin Panel */}
-      {showAdmin && (
-        <section className="py-8 px-4 bg-white/50 backdrop-blur-sm border-y border-pink-100">
-          <div className="container mx-auto">
-            <AdminPanel onAddStore={addStore} stores={stores} onRemoveStore={removeStore} />
-          </div>
-        </section>
-      )}
-
-      {/* Store Locator */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-              Find Your Nearest Store
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Locate the closest Mattress Liquidators store near you and discover incredible savings on premium mattresses.
-            </p>
-          </div>
-          <StoreLocator stores={stores} />
         </div>
       </section>
 
