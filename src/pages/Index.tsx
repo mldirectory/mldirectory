@@ -2,12 +2,13 @@
 import { useState, useEffect } from 'react';
 import { MapPin, Search, Shield, Award, Truck, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import StoreLocator from '@/components/StoreLocator';
 import AdminPanel from '@/components/AdminPanel';
 import FeaturedBrands from '@/components/FeaturedBrands';
+import AuthDialog from '@/components/AuthDialog';
 import { supabase } from '@/integrations/supabase/client';
+import { User, Session } from '@supabase/supabase-js';
 
 export interface Store {
   id: string;
@@ -20,9 +21,37 @@ export interface Store {
   hours: string;
 }
 
+const ADMIN_EMAIL = 'mattresslocatorsite@gmail.com';
+
 const Index = () => {
   const [stores, setStores] = useState<Store[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [showAdmin, setShowAdmin] = useState(false);
+
+  // Set up authentication
+  useEffect(() => {
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        // Hide admin panel if user logs out or is not admin
+        if (!session?.user || session.user.email !== ADMIN_EMAIL) {
+          setShowAdmin(false);
+        }
+      }
+    );
+
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   // Load stores from Supabase
   useEffect(() => {
@@ -123,6 +152,12 @@ const Index = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
+
+  const isAdmin = user?.email === ADMIN_EMAIL;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-cyan-50">
       {/* Header */}
@@ -132,13 +167,18 @@ const Index = () => {
             <MapPin className="text-pink-500 w-6 h-6" />
             <span className="font-bold text-gray-800">Store Locator</span>
           </div>
-          <Button 
-            onClick={() => setShowAdmin(!showAdmin)}
-            variant="outline"
-            className="border-pink-200 text-pink-600 hover:bg-pink-50"
-          >
-            {showAdmin ? 'Hide Admin' : 'Admin Panel'}
-          </Button>
+          <div className="flex items-center gap-4">
+            <AuthDialog user={user} onSignOut={handleSignOut} />
+            {isAdmin && (
+              <Button 
+                onClick={() => setShowAdmin(!showAdmin)}
+                variant="outline"
+                className="border-pink-200 text-pink-600 hover:bg-pink-50"
+              >
+                {showAdmin ? 'Hide Admin' : 'Admin Panel'}
+              </Button>
+            )}
+          </div>
         </div>
       </header>
 
@@ -163,7 +203,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Store Locator Section - Moved right below logo */}
+      {/* Store Locator Section - Right below logo */}
       <section className="py-8 px-4 bg-white/50 backdrop-blur-sm">
         <div className="container mx-auto">
           <div className="text-center mb-8">
@@ -178,8 +218,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Admin Panel */}
-      {showAdmin && (
+      {/* Admin Panel - Only show for authenticated admin */}
+      {showAdmin && isAdmin && (
         <section className="py-8 px-4 bg-white/70 backdrop-blur-sm border-y border-pink-100">
           <div className="container mx-auto">
             <AdminPanel onAddStore={addStore} stores={stores} onRemoveStore={removeStore} />
