@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,15 +10,30 @@ import { User } from '@supabase/supabase-js';
 interface AuthDialogProps {
   user: User | null;
   onSignOut: () => void;
+  onClose?: () => void;
+  isOpen?: boolean;
 }
 
-const AuthDialog = ({ user, onSignOut }: AuthDialogProps) => {
+const AuthDialog = ({ user, onSignOut, onClose, isOpen }: AuthDialogProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(isOpen || false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (isOpen !== undefined) {
+      setOpen(isOpen);
+    }
+  }, [isOpen]);
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+    if (!newOpen && onClose) {
+      onClose();
+    }
+  };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +57,7 @@ const AuthDialog = ({ user, onSignOut }: AuthDialogProps) => {
           password,
         });
         if (error) throw error;
-        setOpen(false);
+        handleOpenChange(false);
       }
     } catch (error: any) {
       setError(error.message);
@@ -65,7 +80,7 @@ const AuthDialog = ({ user, onSignOut }: AuthDialogProps) => {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="outline" className="border-pink-200 text-pink-600 hover:bg-pink-50">
           Admin Login

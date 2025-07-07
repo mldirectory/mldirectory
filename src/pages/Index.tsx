@@ -28,6 +28,7 @@ const Index = () => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
 
   // Set up authentication
   useEffect(() => {
@@ -187,13 +188,27 @@ const Index = () => {
           
           {/* Store Owner Button */}
           <div className="mt-8 text-center">
-            <Button 
-              onClick={() => window.open('mailto:mattresslocatorsite@gmail.com?subject=Add My Store to Directory')}
-              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
-            >
-              STORE OWNERS CLICK HERE
-            </Button>
-          </div>
+           {!user ? (
+             <Button 
+               onClick={() => setShowAuthDialog(true)}
+               className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+             >
+               STORE OWNERS CLICK HERE
+             </Button>
+           ) : (
+             <p className="text-gray-600">Welcome back! Use the admin panel to manage stores.</p>
+           )}
+           </div>
+           
+           {/* Auth Dialog */}
+           {showAuthDialog && (
+             <AuthDialog 
+               user={null} 
+               onSignOut={() => {}} 
+               onClose={() => setShowAuthDialog(false)}
+               isOpen={showAuthDialog}
+             />
+           )}
         </div>
       </section>
 
