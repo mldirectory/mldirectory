@@ -23,10 +23,7 @@ const StoreLocator = ({ stores }: StoreLocatorProps) => {
     }
 
     const filtered = stores.filter(store => 
-      store.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      store.zipCode.includes(searchTerm) ||
-      store.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      store.address.toLowerCase().includes(searchTerm.toLowerCase())
+      store.city.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredStores(filtered);
@@ -46,7 +43,7 @@ const StoreLocator = ({ stores }: StoreLocatorProps) => {
         <CardHeader className="pb-4">
           <CardTitle className="text-center text-2xl md:text-3xl text-gray-800 flex items-center justify-center gap-3">
             <Search className="w-8 h-8 text-pink-500" />
-            Store Locator
+            Find Only The Best Liquidation Stores Near You
           </CardTitle>
         </CardHeader>
         <CardContent>
