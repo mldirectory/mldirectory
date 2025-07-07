@@ -22,9 +22,30 @@ const StoreLocator = ({ stores }: StoreLocatorProps) => {
       return;
     }
 
-    const filtered = stores.filter(store => 
-      store.city.toLowerCase().includes(searchTerm.toLowerCase())
+    // Find state from city search or direct state search
+    let targetState = '';
+    
+    // Check if search term matches a state directly
+    const stateMatch = stores.find(store => 
+      store.state.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    
+    if (stateMatch) {
+      targetState = stateMatch.state;
+    } else {
+      // Check if search term matches a city, then get its state
+      const cityMatch = stores.find(store => 
+        store.city.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      if (cityMatch) {
+        targetState = cityMatch.state;
+      }
+    }
+    
+    // If we found a state, show all stores in that state
+    const filtered = targetState ? 
+      stores.filter(store => store.state.toLowerCase() === targetState.toLowerCase()) :
+      [];
 
     setFilteredStores(filtered);
     setHasSearched(true);
@@ -81,7 +102,7 @@ const StoreLocator = ({ stores }: StoreLocatorProps) => {
 
       {/* Store Cards */}
       <div className="grid gap-6 md:grid-cols-2">
-        {(hasSearched ? filteredStores : stores.slice(0, 4)).map((store) => (
+        {(hasSearched ? filteredStores : []).map((store) => (
           <Card key={store.id} className="bg-white/80 backdrop-blur-sm border-pink-100 hover:shadow-xl transition-all duration-300 hover:scale-105">
             <CardContent className="p-6">
               <div className="flex items-start gap-4">

@@ -184,6 +184,16 @@ const Index = () => {
               className="mx-auto w-full max-w-md h-auto drop-shadow-lg"
             />
           </div>
+          
+          {/* Store Owner Button */}
+          <div className="mt-8 text-center">
+            <Button 
+              onClick={() => window.open('mailto:mattresslocatorsite@gmail.com?subject=Add My Store to Directory')}
+              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+              STORE OWNERS CLICK HERE
+            </Button>
+          </div>
         </div>
       </section>
 
