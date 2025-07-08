@@ -19,6 +19,7 @@ export type Database = {
           address: string
           city: string
           created_at: string
+          created_by: string | null
           hours: string | null
           id: string
           name: string
@@ -31,6 +32,7 @@ export type Database = {
           address: string
           city: string
           created_at?: string
+          created_by?: string | null
           hours?: string | null
           id?: string
           name: string
@@ -43,6 +45,7 @@ export type Database = {
           address?: string
           city?: string
           created_at?: string
+          created_by?: string | null
           hours?: string | null
           id?: string
           name?: string

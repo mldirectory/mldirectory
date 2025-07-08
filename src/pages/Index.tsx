@@ -59,6 +59,13 @@ const Index = () => {
     fetchStores();
   }, []);
 
+  // Load admin stores when user changes or admin panel is shown
+  useEffect(() => {
+    if (user && showAdmin) {
+      fetchAdminStores();
+    }
+  }, [user, showAdmin]);
+
   const fetchStores = async () => {
     try {
       const { data, error } = await supabase
@@ -89,6 +96,44 @@ const Index = () => {
     }
   };
 
+  // Fetch stores for admin panel (filtered by user)
+  const fetchAdminStores = async () => {
+    try {
+      let query = supabase
+        .from('stores')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      // Master admin sees all stores, other users see only their own
+      if (user?.email !== ADMIN_EMAIL) {
+        query = query.eq('created_by', user?.id);
+      }
+
+      const { data, error } = await query;
+
+      if (error) {
+        console.error('Error fetching admin stores:', error);
+        return;
+      }
+
+      // Transform the data to match our Store interface
+      const transformedStores = data.map(store => ({
+        id: store.id,
+        name: store.name,
+        address: store.address,
+        city: store.city,
+        state: store.state,
+        zipCode: store.zip_code,
+        phone: store.phone || '',
+        hours: store.hours || '',
+      }));
+
+      setStores(transformedStores);
+    } catch (error) {
+      console.error('Error fetching admin stores:', error);
+    }
+  };
+
   const addStore = async (store: Omit<Store, 'id'>) => {
     try {
       const { data, error } = await supabase
@@ -101,6 +146,7 @@ const Index = () => {
           zip_code: store.zipCode,
           phone: store.phone,
           hours: store.hours,
+          created_by: user?.id,
         }])
         .select()
         .single();
@@ -125,6 +171,11 @@ const Index = () => {
 
       setStores(prev => [newStore, ...prev]);
       console.log('Store added successfully!');
+      
+      // Refresh admin stores after adding
+      if (showAdmin) {
+        fetchAdminStores();
+      }
     } catch (error) {
       console.error('Error adding store:', error);
       alert('Error adding store. Please try again.');
@@ -147,9 +198,65 @@ const Index = () => {
       // Remove the store from local state
       setStores(prev => prev.filter(store => store.id !== id));
       console.log('Store removed successfully!');
+      
+      // Refresh admin stores after removing
+      if (showAdmin) {
+        fetchAdminStores();
+      }
     } catch (error) {
       console.error('Error removing store:', error);
       alert('Error removing store. Please try again.');
+    }
+  };
+
+  const updateStore = async (id: string, updatedStore: Omit<Store, 'id'>) => {
+    try {
+      const { data, error } = await supabase
+        .from('stores')
+        .update({
+          name: updatedStore.name,
+          address: updatedStore.address,
+          city: updatedStore.city,
+          state: updatedStore.state,
+          zip_code: updatedStore.zipCode,
+          phone: updatedStore.phone,
+          hours: updatedStore.hours,
+        })
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error updating store:', error);
+        alert('Error updating store. Please try again.');
+        return;
+      }
+
+      // Update the local state
+      const transformedStore = {
+        id: data.id,
+        name: data.name,
+        address: data.address,
+        city: data.city,
+        state: data.state,
+        zipCode: data.zip_code,
+        phone: data.phone || '',
+        hours: data.hours || '',
+      };
+
+      setStores(prev => prev.map(store => 
+        store.id === id ? transformedStore : store
+      ));
+      
+      console.log('Store updated successfully!');
+      
+      // Refresh admin stores after updating
+      if (showAdmin) {
+        fetchAdminStores();
+      }
+    } catch (error) {
+      console.error('Error updating store:', error);
+      alert('Error updating store. Please try again.');
     }
   };
 
@@ -175,6 +282,18 @@ const Index = () => {
         </div>
       )}
 
+      {/* Store Owner Button - Upper Right */}
+      {!user && (
+        <div className="fixed top-4 right-4 z-50">
+          <Button 
+            onClick={() => setShowAuthDialog(true)}
+            className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+          >
+            STORE OWNERS CLICK HERE
+          </Button>
+        </div>
+      )}
+
       {/* Logo Section */}
       <section className="relative py-8 px-4 text-center">
         <div className="container mx-auto">
@@ -182,23 +301,16 @@ const Index = () => {
             <img 
               src="/lovable-uploads/821af3f6-f657-4e76-9204-2bee6c21c100.png" 
               alt="Mattress Liquidators Logo" 
-              className="mx-auto w-full max-w-md h-auto drop-shadow-lg"
+              className="mx-auto w-full max-w-xs h-auto drop-shadow-lg"
             />
           </div>
           
-          {/* Store Owner Button */}
-          <div className="mt-8 text-center">
-           {!user ? (
-             <Button 
-               onClick={() => setShowAuthDialog(true)}
-               className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
-             >
-               STORE OWNERS CLICK HERE
-             </Button>
-           ) : (
-             <p className="text-gray-600">Welcome back! Use the admin panel to manage stores.</p>
-           )}
-           </div>
+          {/* Welcome message for logged in users */}
+          {user && (
+            <div className="mt-8 text-center">
+              <p className="text-gray-600">Welcome back! Use the admin panel to manage stores.</p>
+            </div>
+          )}
            
            {/* Auth Dialog */}
            {showAuthDialog && (
@@ -223,7 +335,7 @@ const Index = () => {
       {showAdmin && user?.email === ADMIN_EMAIL && (
         <section className="py-8 px-4 bg-white/70 backdrop-blur-sm border-y border-pink-100">
           <div className="container mx-auto">
-            <AdminPanel onAddStore={addStore} stores={stores} onRemoveStore={removeStore} />
+            <AdminPanel onAddStore={addStore} stores={stores} onRemoveStore={removeStore} onUpdateStore={updateStore} />
           </div>
         </section>
       )}
