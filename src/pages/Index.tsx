@@ -38,8 +38,8 @@ const Index = () => {
         setSession(session);
         setUser(session?.user ?? null);
         
-        // Hide admin panel if user logs out or is not admin
-        if (!session?.user || session.user.email !== ADMIN_EMAIL) {
+        // Hide admin panel if user logs out
+        if (!session?.user) {
           setShowAdmin(false);
         }
       }
@@ -269,7 +269,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-cyan-50">
       {/* Admin access for adding stores */}
-      {user?.email === ADMIN_EMAIL && (
+      {user && (
         <div className="fixed top-4 right-4 z-50">
           <AuthDialog user={user} onSignOut={handleSignOut} />
           <Button 
@@ -331,8 +331,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Admin Panel - Only show for authenticated admin */}
-      {showAdmin && user?.email === ADMIN_EMAIL && (
+      {/* Admin Panel - Show for authenticated users */}
+      {showAdmin && user && (
         <section className="py-8 px-4 bg-white/70 backdrop-blur-sm border-y border-pink-100">
           <div className="container mx-auto">
             <AdminPanel onAddStore={addStore} stores={stores} onRemoveStore={removeStore} onUpdateStore={updateStore} />
