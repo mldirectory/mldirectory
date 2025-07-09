@@ -261,7 +261,11 @@ const Index = () => {
   };
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
 
   const isAdmin = user?.email === ADMIN_EMAIL;
