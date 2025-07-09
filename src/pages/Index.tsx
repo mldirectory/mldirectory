@@ -136,6 +136,15 @@ const Index = () => {
 
   const addStore = async (store: Omit<Store, 'id'>) => {
     try {
+      console.log('Adding store:', store);
+      console.log('Current user:', user);
+      
+      if (!user?.id) {
+        console.error('No user ID found');
+        alert('You must be logged in to add a store.');
+        return;
+      }
+
       const { data, error } = await supabase
         .from('stores')
         .insert([{
@@ -146,16 +155,18 @@ const Index = () => {
           zip_code: store.zipCode,
           phone: store.phone,
           hours: store.hours,
-          created_by: user?.id,
+          created_by: user.id,
         }])
         .select()
         .single();
 
       if (error) {
-        console.error('Error adding store:', error);
-        alert('Error adding store. Please try again.');
+        console.error('Supabase error adding store:', error);
+        alert(`Error adding store: ${error.message}. Please try again.`);
         return;
       }
+
+      console.log('Store added to database:', data);
 
       // Add the new store to the local state
       const newStore = {
@@ -170,15 +181,16 @@ const Index = () => {
       };
 
       setStores(prev => [newStore, ...prev]);
-      console.log('Store added successfully!');
+      console.log('Store added successfully to local state!');
+      alert('Store added successfully!');
       
       // Refresh admin stores after adding
       if (showAdmin) {
         fetchAdminStores();
       }
     } catch (error) {
-      console.error('Error adding store:', error);
-      alert('Error adding store. Please try again.');
+      console.error('Unexpected error adding store:', error);
+      alert(`Error adding store: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`);
     }
   };
 
