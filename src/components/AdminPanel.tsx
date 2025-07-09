@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Plus, Trash2, Store as StoreIcon, Edit3, Save, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -87,7 +88,7 @@ const AdminPanel = ({ onAddStore, stores, onRemoveStore, onUpdateStore }: AdminP
     });
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     if (!editingStore) return;
     
     // Basic validation
@@ -96,8 +97,24 @@ const AdminPanel = ({ onAddStore, stores, onRemoveStore, onUpdateStore }: AdminP
       return;
     }
 
-    onUpdateStore(editingStore, editData);
-    setEditingStore(null);
+    try {
+      console.log('Saving store update:', editingStore, editData);
+      await onUpdateStore(editingStore, editData);
+      setEditingStore(null);
+      setEditData({
+        name: '',
+        address: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        phone: '',
+        hours: '',
+      });
+      console.log('Store update completed successfully');
+    } catch (error) {
+      console.error('Error saving store update:', error);
+      alert('Error updating store. Please try again.');
+    }
   };
 
   const handleCancelEdit = () => {
