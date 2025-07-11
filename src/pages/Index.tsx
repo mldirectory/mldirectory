@@ -65,6 +65,9 @@ const Index = () => {
   useEffect(() => {
     if (user && showAdmin) {
       fetchAdminStores();
+    } else {
+      // When not in admin mode, make sure we show all public stores
+      fetchStores();
     }
   }, [user, showAdmin]);
 
@@ -320,11 +323,11 @@ const Index = () => {
       {/* Logo Section */}
       <section className="relative py-8 px-4 text-center">
         <div className="container mx-auto">
-          <div className="mb-8">
+          <div className="mb-4">
             <img 
               src="/lovable-uploads/8043f686-a816-4896-a150-6c645fe81ed6.png" 
               alt="Mattress Liquidators Logo" 
-              className="mx-auto w-full max-w-md h-auto drop-shadow-lg"
+              className="mx-auto w-full max-w-2xl h-auto drop-shadow-lg"
             />
           </div>
           
@@ -348,7 +351,7 @@ const Index = () => {
       </section>
 
       {/* Store Locator Section */}
-      <section className="py-8 px-4">
+      <section className="py-4 px-4">
         <div className="container mx-auto">
           <StoreLocator stores={stores} />
         </div>
