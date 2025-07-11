@@ -321,9 +321,9 @@ const Index = () => {
       )}
 
       {/* Logo Section */}
-      <section className="relative py-8 px-4 text-center">
+      <section className="relative pt-16 pb-4 px-4 text-center">
         <div className="container mx-auto">
-          <div className="mb-4">
+          <div className="mb-2">
             <img 
               src="/lovable-uploads/8043f686-a816-4896-a150-6c645fe81ed6.png" 
               alt="Mattress Liquidators Logo" 
@@ -351,7 +351,7 @@ const Index = () => {
       </section>
 
       {/* Store Locator Section */}
-      <section className="py-4 px-4">
+      <section className="px-4">
         <div className="container mx-auto">
           <StoreLocator stores={stores} />
         </div>
