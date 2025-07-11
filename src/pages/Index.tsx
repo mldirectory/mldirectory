@@ -6,6 +6,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import StoreLocator from '@/components/StoreLocator';
 import AdminPanel from '@/components/AdminPanel';
 import FeaturedBrands from '@/components/FeaturedBrands';
+import BenefitsSection from '@/components/BenefitsSection';
+import WholesaleDialog from '@/components/WholesaleDialog';
 import AuthDialog from '@/components/AuthDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
@@ -283,7 +285,12 @@ const Index = () => {
   const isAdmin = user?.email === ADMIN_EMAIL;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-cyan-50">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50">
+      {/* Wholesale Button - Top Left */}
+      <div className="fixed top-4 left-4 z-50">
+        <WholesaleDialog />
+      </div>
+
       {/* Admin access for adding stores */}
       {user && (
         <div className="fixed top-4 right-4 z-50">
@@ -291,7 +298,7 @@ const Index = () => {
           <Button 
             onClick={() => setShowAdmin(!showAdmin)}
             variant="outline"
-            className="ml-2 border-pink-200 text-pink-600 hover:bg-pink-50"
+            className="ml-2 border-red-200 text-red-600 hover:bg-red-50"
           >
             {showAdmin ? 'Hide Admin' : 'Admin Panel'}
           </Button>
@@ -303,7 +310,7 @@ const Index = () => {
         <div className="fixed top-4 right-4 z-50">
           <Button 
             onClick={() => setShowAuthDialog(true)}
-            className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
           >
             STORE OWNERS CLICK HERE
           </Button>
@@ -315,9 +322,9 @@ const Index = () => {
         <div className="container mx-auto">
           <div className="mb-8">
             <img 
-              src="/lovable-uploads/821af3f6-f657-4e76-9204-2bee6c21c100.png" 
+              src="/lovable-uploads/8043f686-a816-4896-a150-6c645fe81ed6.png" 
               alt="Mattress Liquidators Logo" 
-              className="mx-auto w-full max-w-xs h-auto drop-shadow-lg"
+              className="mx-auto w-full max-w-md h-auto drop-shadow-lg"
             />
           </div>
           
@@ -347,9 +354,19 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Benefits Section */}
+      <BenefitsSection />
+
+      {/* Featured Brands Section */}
+      <section className="py-8 px-4">
+        <div className="container mx-auto">
+          <FeaturedBrands />
+        </div>
+      </section>
+
       {/* Admin Panel - Show for authenticated users */}
       {showAdmin && user && (
-        <section className="py-8 px-4 bg-white/70 backdrop-blur-sm border-y border-pink-100">
+        <section className="py-8 px-4 bg-white/70 backdrop-blur-sm border-y border-red-100">
           <div className="container mx-auto">
             <AdminPanel onAddStore={addStore} stores={stores} onRemoveStore={removeStore} onUpdateStore={updateStore} />
           </div>

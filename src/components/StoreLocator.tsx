@@ -60,10 +60,10 @@ const StoreLocator = ({ stores }: StoreLocatorProps) => {
   return (
     <div className="max-w-5xl mx-auto">
       {/* Large, Prominent Search Section */}
-      <Card className="mb-8 bg-white/90 backdrop-blur-sm border-pink-200 shadow-xl">
+      <Card className="mb-8 bg-white/90 backdrop-blur-sm border-red-200 shadow-xl">
         <CardHeader className="pb-4">
           <CardTitle className="text-center text-2xl md:text-3xl text-gray-800 flex items-center justify-center gap-3">
-            <Search className="w-8 h-8 text-pink-500" />
+            <Search className="w-8 h-8 text-red-500" />
             Find The Best Liquidation Stores Near You
           </CardTitle>
         </CardHeader>
@@ -75,11 +75,11 @@ const StoreLocator = ({ stores }: StoreLocatorProps) => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="flex-1 h-14 text-lg border-pink-200 focus:border-pink-400 focus:ring-pink-400 rounded-xl"
+              className="flex-1 h-14 text-lg border-red-200 focus:border-red-400 focus:ring-red-400 rounded-xl"
             />
             <Button 
               onClick={handleSearch}
-              className="h-14 px-8 md:px-12 text-lg bg-gradient-to-r from-pink-500 to-yellow-500 hover:from-pink-600 hover:to-yellow-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+              className="h-14 px-8 md:px-12 text-lg bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <Search className="w-5 h-5 mr-2" />
               Search Stores
@@ -103,10 +103,10 @@ const StoreLocator = ({ stores }: StoreLocatorProps) => {
       {/* Store Cards */}
       <div className="grid gap-6 md:grid-cols-2">
         {(hasSearched ? filteredStores : []).map((store) => (
-          <Card key={store.id} className="bg-white/80 backdrop-blur-sm border-pink-100 hover:shadow-xl transition-all duration-300 hover:scale-105">
+          <Card key={store.id} className="bg-white/80 backdrop-blur-sm border-red-100 hover:shadow-xl transition-all duration-300 hover:scale-105">
             <CardContent className="p-6">
               <div className="flex items-start gap-4">
-                <div className="bg-gradient-to-r from-pink-500 to-yellow-500 p-3 rounded-full flex-shrink-0">
+                <div className="bg-gradient-to-r from-red-500 to-red-600 p-3 rounded-full flex-shrink-0">
                   <MapPin className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1">
@@ -119,20 +119,25 @@ const StoreLocator = ({ stores }: StoreLocatorProps) => {
                   <div className="space-y-2">
                     {store.phone && (
                       <div className="flex items-center gap-2 text-gray-600">
-                        <Phone className="w-4 h-4 text-pink-500" />
-                        <span className="text-sm">{store.phone}</span>
+                        <Phone className="w-4 h-4 text-red-500" />
+                        <a 
+                          href={`tel:${store.phone}`}
+                          className="text-sm text-red-600 hover:text-red-800 hover:underline font-medium transition-colors duration-200"
+                        >
+                          {store.phone}
+                        </a>
                       </div>
                     )}
                     {store.hours && (
                       <div className="flex items-center gap-2 text-gray-600">
-                        <Clock className="w-4 h-4 text-pink-500" />
+                        <Clock className="w-4 h-4 text-red-500" />
                         <span className="text-sm">{store.hours}</span>
                       </div>
                     )}
                   </div>
 
                   <Button 
-                    className="mt-4 w-full bg-gradient-to-r from-cyan-500 to-pink-500 hover:from-cyan-600 hover:to-pink-600 text-white"
+                    className="mt-4 w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white"
                     onClick={() => window.open(`https://maps.google.com/?q=${encodeURIComponent(`${store.address}, ${store.city}, ${store.state} ${store.zipCode}`)}`)}
                   >
                     Get Directions
@@ -145,9 +150,9 @@ const StoreLocator = ({ stores }: StoreLocatorProps) => {
       </div>
 
       {!hasSearched && stores.length === 0 && (
-        <Card className="bg-white/80 backdrop-blur-sm border-pink-100 text-center p-8">
+        <Card className="bg-white/80 backdrop-blur-sm border-red-100 text-center p-8">
           <CardContent>
-            <MapPin className="w-16 h-16 text-pink-300 mx-auto mb-4" />
+            <MapPin className="w-16 h-16 text-red-300 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-800 mb-2">No Stores Available</h3>
             <p className="text-gray-600">
               Store locations will appear here once they are added through the admin panel.
