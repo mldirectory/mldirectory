@@ -63,7 +63,7 @@ const WholesaleDialog = () => {
           className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 text-sm"
         >
           <Truck className="w-4 h-4 mr-2" />
-          WHOLESALE TRUCK LOADS CLICK HERE
+          WHOLESALE TRUCK LOADS
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">

@@ -315,7 +315,7 @@ const Index = () => {
             onClick={() => setShowAuthDialog(true)}
             className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
           >
-            STORE OWNERS CLICK HERE
+            STORE OWNERS
           </Button>
         </div>
       )}
