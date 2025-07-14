@@ -1,41 +1,52 @@
 
 import { Star, Award, Zap } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import sertaLogo from '@/assets/serta-logo.png';
+import tempurPedicLogo from '@/assets/tempur-pedic-logo.png';
+import sealyLogo from '@/assets/sealy-logo.png';
+import casperLogo from '@/assets/casper-logo.png';
+import purpleLogo from '@/assets/purple-logo.png';
 
 const FeaturedBrands = () => {
   const brands = [
     {
       name: "Sealy",
+      logo: sealyLogo,
       description: "Premium comfort with Posturepedic technology",
       savings: "Up to 75% off",
       color: "from-blue-500 to-cyan-500"
     },
     {
-      name: "Serta",
+      name: "Serta", 
+      logo: sertaLogo,
       description: "Perfect sleeper collection for ultimate rest",
       savings: "Up to 80% off", 
       color: "from-purple-500 to-pink-500"
     },
     {
       name: "Tempur-Pedic",
+      logo: tempurPedicLogo,
       description: "Memory foam innovation for personalized comfort",
       savings: "Up to 70% off",
       color: "from-green-500 to-emerald-500"
     },
     {
       name: "Beautyrest",
+      logo: null, // We'll use text for now since logo download failed
       description: "Pocketed coil technology for motion isolation",
       savings: "Up to 75% off",
       color: "from-orange-500 to-red-500"
     },
     {
       name: "Casper",
+      logo: casperLogo,
       description: "Modern sleep solutions with premium materials",
       savings: "Up to 65% off",
       color: "from-indigo-500 to-purple-500"
     },
     {
       name: "Purple",
+      logo: purpleLogo,
       description: "Innovative gel grid technology for cooling comfort",
       savings: "Up to 70% off",
       color: "from-pink-500 to-rose-500"
@@ -71,13 +82,23 @@ const FeaturedBrands = () => {
         {brands.map((brand, index) => (
           <Card key={brand.name} className="group bg-white/80 backdrop-blur-sm border-pink-100 hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden">
             <CardContent className="p-6">
-              <div className={`bg-gradient-to-r ${brand.color} p-4 rounded-lg mb-4 text-center`}>
-                <h3 className="text-2xl font-bold text-white mb-2">{brand.name}</h3>
-                <div className="flex justify-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-300 fill-current" />
-                  ))}
-                </div>
+              <div className={`bg-gradient-to-r ${brand.color} p-4 rounded-lg mb-4 text-center flex items-center justify-center`} style={{ minHeight: '120px' }}>
+                {brand.logo ? (
+                  <img 
+                    src={brand.logo} 
+                    alt={`${brand.name} logo`}
+                    className="max-h-16 max-w-full object-contain filter brightness-0 invert"
+                  />
+                ) : (
+                  <div>
+                    <h3 className="text-2xl font-bold text-white mb-2">{brand.name}</h3>
+                    <div className="flex justify-center">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 text-yellow-300 fill-current" />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               
               <p className="text-gray-600 mb-4 text-center leading-relaxed">
