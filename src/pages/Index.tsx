@@ -291,6 +291,9 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50">
       {/* Wholesale Button - Top Left */}
       <div className="fixed top-4 left-4 z-50">
+        <Button className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold px-4 py-2 rounded-lg shadow-lg">
+          WHOLESALE TRUCK LOADS
+        </Button>
         <WholesaleDialog />
       </div>
 
@@ -320,20 +323,31 @@ const Index = () => {
         </div>
       )}
 
-      {/* Logo Section */}
-      <section className="relative pt-16 pb-4 px-4 text-center">
+      {/* Main Hero Section */}
+      <section className="relative pt-16 pb-8 px-4">
         <div className="container mx-auto">
-          <div className="mb-2">
-            <img 
-              src="/lovable-uploads/8043f686-a816-4896-a150-6c645fe81ed6.png" 
-              alt="Mattress Liquidators Logo" 
-              className="mx-auto w-full max-w-2xl h-auto drop-shadow-lg"
-            />
+          {/* Hero content with logo and text */}
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 mb-8">
+            {/* Left side content */}
+            <div className="lg:w-1/2 text-left">
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
+                Find top-rated mattress liquidators near you.
+              </h1>
+            </div>
+            
+            {/* Right side logo */}
+            <div className="lg:w-1/2 flex justify-center lg:justify-end">
+              <img 
+                src="/lovable-uploads/9bc4b92f-abc6-428f-91b9-e75c9d82a18e.png" 
+                alt="The Best Mattress Liquidators Directory Logo" 
+                className="h-48 md:h-64 w-auto object-contain"
+              />
+            </div>
           </div>
           
           {/* Welcome message for logged in users */}
           {user && (
-            <div className="mt-8 text-center">
+            <div className="text-center mb-6">
               <p className="text-gray-600">Welcome back! Use the admin panel to manage stores.</p>
             </div>
           )}
@@ -351,9 +365,20 @@ const Index = () => {
       </section>
 
       {/* Store Locator Section */}
-      <section className="px-4">
+      <section className="px-4 mb-8">
         <div className="container mx-auto">
           <StoreLocator stores={stores} />
+        </div>
+      </section>
+
+      {/* Sale Banner */}
+      <section className="px-4 mb-8">
+        <div className="container mx-auto">
+          <div className="bg-gradient-to-r from-red-600 to-red-700 text-white text-center py-4 px-6 rounded-lg shadow-lg">
+            <h2 className="text-2xl md:text-3xl font-bold">
+              SAVE UP TO 80% OFF NAME BRAND CLOSEOUTS
+            </h2>
+          </div>
         </div>
       </section>
 
@@ -364,6 +389,79 @@ const Index = () => {
       <section className="py-8 px-4">
         <div className="container mx-auto">
           <FeaturedBrands />
+        </div>
+      </section>
+
+      {/* Blog Section */}
+      <section className="py-8 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Blog</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="p-6">
+              <h3 className="text-xl font-semibold mb-3">What Is a Mattress Liquidator?</h3>
+              <p className="text-muted-foreground">
+                Lorem ipsum e-semiblan ut mattress liquidator's driven experts and what to guide a low-buying local time.
+              </p>
+            </Card>
+            <Card className="p-6">
+              <h3 className="text-xl font-semibold mb-3">How to Find a Reputable Mattress Liquidator</h3>
+              <p className="text-muted-foreground">
+                Experts to caste expertise as mattress liquidator. Fin a consilium gula considerat.
+              </p>
+            </Card>
+            <Card className="p-6">
+              <h3 className="text-xl font-semibold mb-3">The Benefits of Mattress Liquidation Sales</h3>
+              <p className="text-muted-foreground">
+                Some examini no gam more about mattress liquidators is flarenth engaging areas.
+              </p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-8 px-4 bg-gray-50">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Contact Info */}
+            <div>
+              <h2 className="text-3xl font-bold text-foreground mb-6">Contact Us</h2>
+              <p className="text-muted-foreground mb-6">
+                We can readto reach us.
+              </p>
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+            </div>
+            {/* Contact Form */}
+            <div>
+              <div className="space-y-4 mt-12">
+                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <input
+                  type="email"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+                <label className="block text-sm font-medium text-gray-700">Message</label>
+                <textarea
+                  rows={4}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                  placeholder="Your message..."
+                />
+                <Button className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-3 px-6 rounded-lg">
+                  Send
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
