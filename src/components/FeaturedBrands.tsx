@@ -137,9 +137,6 @@ const FeaturedBrands = () => {
                 <span className="text-gray-700 font-semibold">✓ Free Delivery Available</span>
               </div>
               <div className="bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full border border-pink-200 shadow-sm">
-                <span className="text-gray-700 font-semibold">✓ 90-Day Comfort Guarantee</span>
-              </div>
-              <div className="bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full border border-pink-200 shadow-sm">
                 <span className="text-gray-700 font-semibold">✓ Expert Sleep Consultants</span>
               </div>
             </div>
