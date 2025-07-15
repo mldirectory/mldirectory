@@ -327,7 +327,7 @@ const Index = () => {
             <img 
               src="/lovable-uploads/2857824f-a62a-4f65-8304-c6adc8080808.png" 
               alt="Mattress Liquidators Logo" 
-              className="mx-auto w-full max-w-lg h-auto drop-shadow-lg"
+              className="mx-auto w-full max-w-md h-auto drop-shadow-lg"
             />
           </div>
           

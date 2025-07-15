@@ -114,7 +114,7 @@ const FeaturedBrands = () => {
               <div className="mt-4 pt-4 border-t border-pink-100 text-center">
                 <div className="flex items-center justify-center gap-1 text-sm text-gray-500">
                   <Award className="w-4 h-4 text-yellow-500" />
-                  <span>Premium Quality Guaranteed</span>
+                  <span>Premium Quality</span>
                 </div>
               </div>
             </CardContent>

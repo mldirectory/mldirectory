@@ -23,8 +23,8 @@ const BenefitsSection = () => {
     },
     {
       icon: CheckCircle,
-      title: "Quality Guaranteed",
-      description: "Every mattress comes with manufacturer warranty and quality assurance",
+      title: "Quality Assured",
+      description: "Every mattress meets our high quality standards for comfort and durability",
       color: "from-red-500 to-red-600"
     },
     {
@@ -88,7 +88,7 @@ const BenefitsSection = () => {
                   <span className="text-white font-semibold">✓ Professional Service</span>
                 </div>
                 <div className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full border border-white/30">
-                  <span className="text-white font-semibold">✓ Best Prices Guaranteed</span>
+                  <span className="text-white font-semibold">✓ Best Liquidation Prices</span>
                 </div>
               </div>
             </CardContent>
