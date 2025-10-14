@@ -287,7 +287,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50">
       {/* Logo Section */}
-      <section className="relative pt-16 pb-4 px-4 text-center">
+      <section className="relative pt-6 pb-2 px-4 text-center">
         <div className="container mx-auto">
           <div className="mb-2">
             <img 

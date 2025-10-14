@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -152,10 +152,6 @@ const Footer = ({ user, onSignOut, onShowAuthDialog, onToggleAdmin, showAdmin }:
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4" />
                   <span>info@mattressliquidators.com</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
-                  <span>1-800-MATTRESS</span>
                 </div>
               </div>
             </div>
