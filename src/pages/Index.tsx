@@ -1,13 +1,10 @@
 
 import { useState, useEffect } from 'react';
-import { MapPin, Search, Shield, Award, Truck, Clock } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import StoreLocator from '@/components/StoreLocator';
 import AdminPanel from '@/components/AdminPanel';
 import FeaturedBrands from '@/components/FeaturedBrands';
 import BenefitsSection from '@/components/BenefitsSection';
-import WholesaleDialog from '@/components/WholesaleDialog';
+import Footer from '@/components/Footer';
 import AuthDialog from '@/components/AuthDialog';
 import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
@@ -289,43 +286,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50">
-      {/* Wholesale Button - Top Left */}
-      <div className="fixed top-4 left-4 z-50">
-        <WholesaleDialog />
-      </div>
-
-      {/* Admin access for adding stores */}
-      {user && (
-        <div className="fixed top-4 right-4 z-50">
-          <AuthDialog user={user} onSignOut={handleSignOut} />
-          <Button 
-            onClick={() => setShowAdmin(!showAdmin)}
-            variant="outline"
-            className="ml-2 border-red-200 text-red-600 hover:bg-red-50"
-          >
-            {showAdmin ? 'Hide Admin' : 'Admin Panel'}
-          </Button>
-        </div>
-      )}
-
-      {/* Store Owner Button - Upper Right */}
-      {!user && (
-        <div className="fixed top-4 right-4 z-50">
-          <Button 
-            onClick={() => setShowAuthDialog(true)}
-            className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
-          >
-            STORE OWNERS
-          </Button>
-        </div>
-      )}
-
       {/* Logo Section */}
       <section className="relative pt-16 pb-4 px-4 text-center">
         <div className="container mx-auto">
           <div className="mb-2">
             <img 
-              src="/lovable-uploads/2857824f-a62a-4f65-8304-c6adc8080808.png" 
+              src="/lovable-uploads/8043f686-a816-4896-a150-6c645fe81ed6.png" 
               alt="Mattress Liquidators Logo" 
               className="mx-auto w-full max-w-md h-auto drop-shadow-lg"
             />
@@ -375,6 +341,15 @@ const Index = () => {
           </div>
         </section>
       )}
+
+      {/* Footer */}
+      <Footer 
+        user={user} 
+        onSignOut={handleSignOut} 
+        onShowAuthDialog={() => setShowAuthDialog(true)}
+        onToggleAdmin={() => setShowAdmin(!showAdmin)}
+        showAdmin={showAdmin}
+      />
     </div>
   );
 };
