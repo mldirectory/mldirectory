@@ -13,7 +13,7 @@ const FeaturedBrands = () => {
         {/* Brand Logos Block */}
         <div className="mb-8">
           <img 
-            src="/lovable-uploads/821af3f6-f657-4e76-9204-2bee6c21c100.png" 
+            src="/lovable-uploads/mattress-brands-grid.png" 
             alt="Featured Mattress Brands" 
             className="mx-auto w-full max-w-4xl h-auto rounded-lg shadow-lg"
           />
