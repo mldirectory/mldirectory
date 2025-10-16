@@ -291,7 +291,7 @@ const Index = () => {
         <div className="container mx-auto">
           <div className="mb-2">
             <img 
-              src="/lovable-uploads/mattress-liquidators-logo.png" 
+              src="/lovable-uploads/mattress-liquidators-logo.png?v=2" 
               alt="Mattress Liquidators Directory Logo" 
               className="mx-auto w-full max-w-md h-auto drop-shadow-lg"
             />
