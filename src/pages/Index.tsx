@@ -323,15 +323,15 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <BenefitsSection />
-
       {/* Featured Brands Section */}
       <section className="py-8 px-4">
         <div className="container mx-auto">
           <FeaturedBrands />
         </div>
       </section>
+
+      {/* Benefits Section */}
+      <BenefitsSection />
 
       {/* Admin Panel - Show for authenticated users */}
       {showAdmin && user && (
