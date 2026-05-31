@@ -156,6 +156,14 @@ const Footer = ({ user, onSignOut, onShowAuthDialog, onToggleAdmin, showAdmin }:
           <p>&copy; {new Date().getFullYear()} Mattress Liquidators. All rights reserved.</p>
         </div>
       </div>
+
+      {/* Support Strip */}
+      <a
+        href="tel:8187255555"
+        className="block w-full bg-yellow-300 hover:bg-yellow-400 text-black text-center font-bold py-2 px-4 text-sm md:text-base tracking-wide animate-pulse"
+      >
+        FOR SUPPORT QUESTIONS CALL 818-725-5555
+      </a>
     </footer>
   );
 };
