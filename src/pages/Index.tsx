@@ -1,5 +1,5 @@
 
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import StoreLocator from '@/components/StoreLocator';
 import AdminPanel from '@/components/AdminPanel';
 import FeaturedBrands from '@/components/FeaturedBrands';
